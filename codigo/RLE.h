@@ -1,8 +1,9 @@
 #ifndef RLE_H
 #define RLE_H
-int lonNumeros(int numero);
-int potencia(int numero, int ala_q);
-char * comprimir_RLE(char * frase);
+#include <string>
+using namespace std;
+void cerrar_racha(string& resultado, int cantidad, char letra);
+string comprimir_RLE(const string& texto);
+string descomprimir_RLE(const string& comprimida);
 void problema_5_1();
-void descomprimir_RLE(char *comprimida);
 #endif // RLE_H

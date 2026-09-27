@@ -1,95 +1,93 @@
 #include <iostream>
 #include "RLE.h"
-using namespace std;
-int lonNumeros(int numero)
+
+const char MARCA = '\x01';   // caracter reservado: no puede aparecer en el texto
+
+void cerrar_racha(string& resultado, int cantidad, char letra)
 {
-    if(numero == 1)
-        return 1;
-
-    if(numero < 0)
-        numero = -numero;
-
-    int contador = 0;
-    while(numero > 0)
-    {
-        numero /= 10;
-        contador++;
-    }
-    return contador;
+    resultado += to_string(cantidad);
+    resultado += letra;
+    if (letra >= '0' && letra <= '9')
+        resultado += MARCA;
 }
-int potencia(int numero,int ala_q)
-{
-    int resultado = 1;
-    for (int c = 0; c < ala_q; c++)
-    {
-        resultado = resultado * numero;
-    }
-    return resultado;
-}
-char * comprimir_RLE(char * frase)
-{
 
-    char letra=frase[0], *N_frase=new char [400];
-    int cantidad=0,guardado=0,controlador,poten;
-    for(short int i=0;;i++)
+string comprimir_RLE(const string& texto)
+{
+    string comprimida = "";
+    if (texto.empty())
     {
-        if(letra!=frase[i])
+        return comprimida;
+    }
+    char letra = texto[0];
+    int cantidad = 0;
+    for (size_t i = 0; i < texto.size(); i++)
+    {
+        if (texto[i] == MARCA)
         {
-            poten=lonNumeros(cantidad);
-            while(poten>0)
-            {
-                controlador=potencia(10,(--poten));
-                N_frase[guardado]=(cantidad / controlador)+'0';
-                cantidad=cantidad % controlador;
-                guardado++;
-            }
-            N_frase[guardado]=letra;
-            guardado++;
-            if(frase[i]=='\0')break;
-            letra=frase[i];
-            cantidad=0;
+            throw "el texto contiene el caracter reservado de marca";
         }
-        cantidad++;
+        if (texto[i] == letra)
+        {
+            cantidad++;
+        }
+        else
+        {
+            cerrar_racha(comprimida, cantidad, letra);
+            letra = texto[i];
+            cantidad = 1;
+        }
     }
-    N_frase[guardado]='\0';
-    return N_frase;
+    cerrar_racha(comprimida, cantidad, letra);
+    return comprimida;
 }
-void problema_5_1()
+string descomprimir_RLE(const string& comprimida)
 {
-    char *N_frase,*frase=new char[200];
-    cout<<"ingrese su cadena de caracteres: ";
-    cin.getline(frase,200);
-    N_frase=comprimir_RLE(frase);
-    delete [] frase;
-    cout<<"frase comprimida: "<<N_frase<<endl;
-    descomprimir_RLE(N_frase);
-    delete [] N_frase;
-}
-void descomprimir_RLE(char *comprimida)
-{
-    char *frase=new char [200];
-    int cantidad = 0, guardado = 0;
+    string resultado = "";
+    int acumulado = 0;
 
-    for (short int i = 0; comprimida[i] != '\0'; i++)
+    for (size_t i = 0; i < comprimida.size(); i++)
     {
         char c = comprimida[i];
         if (c >= '0' && c <= '9')
         {
-            cantidad = cantidad * 10 + (c - '0');
+            acumulado = acumulado * 10 + (c - '0');
+        }
+        else if (c == MARCA)
+        {
+            if (acumulado < 10)
+            {
+                throw "datos RLE invalidos";
+            }
+            resultado.append(acumulado / 10, (char)('0' + acumulado % 10));
+            acumulado = 0;
         }
         else
         {
-            for (int k = 0; k < cantidad && guardado < 199; k++)
-            {
-                frase[guardado] = c;
-                guardado++;
-            }
-            cantidad = 0;
+            resultado.append(acumulado, c);
+            acumulado = 0;
         }
     }
-    frase[guardado] = '\0';
-    cout <<"frase descomprimida: " << frase << endl;
-    delete [] frase;
+    return resultado;
 }
+void problema_5_1()
+{
+    string frase;
+    cout << "ingrese su cadena de caracteres: ";
+    getline(cin, frase);
 
-
+    try
+    {
+        string comprimida = comprimir_RLE(frase);
+        string recuperada = descomprimir_RLE(comprimida);
+        cout <<"comprimida: "<<comprimida <<endl;
+        cout <<"descomprimida: " <<recuperada << endl;
+        if(recuperada==frase)
+        {
+            cout<<"funcionamiento correcto"<<endl;
+        }
+    }
+    catch (const char* e)
+    {
+        cout << "Error: " << e << endl;
+    }
+}

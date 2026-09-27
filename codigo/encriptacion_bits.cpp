@@ -43,13 +43,11 @@ void bits_5_3()
 {
     int n;
     cout<<"ingrese la frase a encriptar: ";
-    char* texto=new char[200];
-    cin.getline(texto, 200);
+    char* N_texto=new char[200];
+    cin.getline(N_texto, 200);
     cout<<"ingrese la cantidad de posiciones a mover (0<n<8): ";
     cin>>n;
-    if (n <= 0 || n >= 8) throw "n debe estar entre 1 y 7";
-    char* N_texto=comprimir_RLE(texto);
-    delete [] texto;
+    if (n <= 0 || n >= 8) throw "n debe estar entre 1 y 7";;
     cout<<"texto comprimido: " <<N_texto<<endl;
     int largo=longitud_N(N_texto);
     encriptar(N_texto,largo,n,'k');

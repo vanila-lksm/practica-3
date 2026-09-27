@@ -7,6 +7,6 @@
 
 int main()
 {
-    bits_5_3();
+    problema_5_1();
     return 0;
 }
