@@ -49,9 +49,8 @@ int comprimir_LZ78(const char* texto,entrada*& pares)
     pares=dic;
     return lonDic-1;
 }
-void imprimir_compresion(entrada*& pares,const char* texto)
+void imprimir_compresion(entrada*& pares,int cantidad)
 {
-    int cantidad = comprimir_LZ78(texto, pares);
     for (int p = 1; p <= cantidad; p++)
     {
         cout << "(" << pares[p].prefijo << ", " << pares[p].caracter << ") ";
@@ -117,6 +116,7 @@ void todo_LZ78()
     recuperado = descomprimir_LZ78(pares, cantidad);
 
     cout << "Original:      " << texto << endl;
+    imprimir_compresion(pares,cantidad);
     cout << "Descomprimido: " << recuperado << endl;
 
     if (sonIguales(texto, recuperado))

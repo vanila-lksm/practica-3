@@ -54,3 +54,6 @@ compile_commands.json
 *creator.user*
 
 *_qmlcache.qrc
+*.pro.user
+build/
+*.o

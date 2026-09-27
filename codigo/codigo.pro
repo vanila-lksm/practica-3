@@ -5,11 +5,11 @@ CONFIG -= qt
 
 SOURCES += \
         LZ78.cpp \
+        RLE.cpp \
         encriptacion_bits.cpp \
-        funciones.cpp \
         main.cpp
 
 HEADERS += \
     LZ78.h \
-    encriptacion_bits.h \
-    funciones.h
+    RLE.h \
+    encriptacion_bits.h

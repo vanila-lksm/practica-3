@@ -1,5 +1,5 @@
 //#include <iostream>
-#include "funciones.h"
+#include "RLE.h"
 #include "LZ78.h"
 #include "encriptacion_bits.h"
 
