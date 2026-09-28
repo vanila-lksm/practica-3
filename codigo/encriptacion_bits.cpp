@@ -1,6 +1,5 @@
 #include "encriptacion_bits.h"
 #include <iostream>
-#include "RLE.h"
 using namespace std;
 
 int longitud_N(const char* texto)
