@@ -2,11 +2,14 @@
 #include "RLE.h"
 #include "LZ78.h"
 #include "encriptacion_bits.h"
+#include "archivos.h"
+#include <fstream>
+using namespace std;
 
 //using namespace std;
 
 int main()
 {
-    problema_5_1();
+    comprimir_archivo();
     return 0;
 }

@@ -17,4 +17,4 @@ HEADERS += \
     encriptacion_bits.h
 
 DISTFILES += \
-    texto_5_4
+    texto.txt
